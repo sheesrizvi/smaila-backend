@@ -29,11 +29,11 @@ const sendEmail = asyncHandler(
       .create(OrderPDF({ items, user, paymentMethod, totalPrice }), options)
       .toFile(`${__dirname}/orderinvoice.pdf`, (err, res) => {
         transporter.sendMail({
-          from: ` Monasbaty <sales@monasbaty.com>`, // sender address
+          from: ` Shamila <sales@shamila.com>`, // sender address
           to: `${user.email}`, // list of receivers
-          replyTo: `<sales@monasbaty.com>`,
+          replyTo: `<sales@shamila.com>`,
           subject: `Booking Confirm ${user?.name}`, // Subject line
-          text: `Booking from Monasbaty`, // plain text body
+          text: `Booking from shamila`, // plain text body
           html: emailTemplate(orderItems, paymentMethod, totalPrice), // html body
           attachments: [
             {
@@ -122,7 +122,6 @@ const getMyBookings = asyncHandler(async (req, res) => {
 });
 
 const getBookingsByVendor = asyncHandler(async (req, res) => {
-  console.log("first");
   const pageSize = 30;
   const page = Number(req.query.pageNumber) || 1;
   const count = await Booking.countDocuments({ vendor: req.query.userId });
