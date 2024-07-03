@@ -33,6 +33,10 @@ const userSchema = mongoose.Schema(
     pushToken: {
       type: String,
     },
+    active: {
+      type: Boolean,
+      default: true
+    },
   },
   {
     timestamps: true,

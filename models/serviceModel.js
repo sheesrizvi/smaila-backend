@@ -48,7 +48,10 @@ const serviceSchema = mongoose.Schema(
       required: true,
       ref: "Vendor",
     },
-
+    location: {
+      type: { type: String, default: "Point" },
+      coordinates: { type: [Number], index: "2dsphere" },
+    },
     size: {
       type: String,
     },
@@ -90,6 +93,7 @@ const serviceSchema = mongoose.Schema(
     timestamps: true,
   }
 );
+serviceSchema.index({ location: "2dsphere" });
 
 const Service = mongoose.model("Service", serviceSchema);
 

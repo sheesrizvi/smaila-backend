@@ -15,6 +15,7 @@ const createService = asyncHandler(async (req, res) => {
     color,
     brand,
     category,
+    location,
     vendor,
     size,
     description,
@@ -33,6 +34,10 @@ const createService = asyncHandler(async (req, res) => {
     city,
     category,
     vendor,
+    location: {
+      type: "Point",
+      coordinates: [location.longitude, location.latitude],
+    },
     size,
     description,
     details,
@@ -75,7 +80,9 @@ const deleteService = asyncHandler(async (req, res) => {
 
 const getServices = asyncHandler(async (req, res) => {
   const { category, price, vendor, ratings } = req.query;
-
+  const longitude = req.query.longitude;
+  const latitude = req.query.latitude;
+  const distance = req.query.distance;
   const minprice = price ? price[0] : 0;
   const maxprice = price ? price[1] : 25000000000000;
 
@@ -101,6 +108,17 @@ const getServices = asyncHandler(async (req, res) => {
         justStrings,
         { sell_price: { $gte: minprice } },
         { sell_price: { $lte: maxprice } },
+        {
+          location: {
+            $near: {
+              $maxDistance: distance,
+              $geometry: {
+                type: "Point",
+                coordinates: [longitude, latitude],
+              },
+            },
+          },
+        },
       ],
     });
     var pageCount = Math.floor(count / 10);
@@ -113,6 +131,17 @@ const getServices = asyncHandler(async (req, res) => {
         justStrings,
         { sell_price: { $gte: minprice } },
         { sell_price: { $lte: maxprice } },
+        {
+          location: {
+            $near: {
+              $maxDistance: distance,
+              $geometry: {
+                type: "Point",
+                coordinates: [longitude, latitude],
+              },
+            },
+          },
+        },
       ],
     })
       .limit(pageSize)
@@ -138,13 +167,41 @@ const getServices = asyncHandler(async (req, res) => {
     const pageSize = 20;
     const page = Number(req.query.pageNumber) || 1;
 
-    const count = await Service.countDocuments(justStrings);
+    const count = await Service.countDocuments({   $and: [
+      justStrings,
+   
+      {
+        location: {
+          $near: {
+            $maxDistance: distance,
+            $geometry: {
+              type: "Point",
+              coordinates: [longitude, latitude],
+            },
+          },
+        },
+      },
+    ],});
     var pageCount = Math.floor(count / 20);
     if (count % 20 !== 0) {
       pageCount = pageCount + 1;
     }
 
-    const products = await Service.find(justStrings)
+    const products = await Service.find({   $and: [
+      justStrings,
+    
+      {
+        location: {
+          $near: {
+            $maxDistance: distance,
+            $geometry: {
+              type: "Point",
+              coordinates: [longitude, latitude],
+            },
+          },
+        },
+      },
+    ],})
       .limit(pageSize)
       .skip(pageSize * (page - 1))
       .populate("category vendor ");
