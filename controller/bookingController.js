@@ -71,7 +71,7 @@ const addBookingItems = asyncHandler(async (req, res) => {
       totalPrice,
     });
     if (order) {
-      sendEmail(orderItems, paymentMethod, totalPrice, user);
+      // sendEmail(orderItems, paymentMethod, totalPrice, user);
       res.status(201).json(order);
     }
   } else {
@@ -79,12 +79,8 @@ const addBookingItems = asyncHandler(async (req, res) => {
       orderItems,
       user: userId,
       shippingAddress,
-      //   paymentResult,
-      //   paymentMethod,
       itemsPrice,
       deliveryStatus,
-
-      //   shippingPrice,
       totalPrice,
       notes,
       deliverySlot,
