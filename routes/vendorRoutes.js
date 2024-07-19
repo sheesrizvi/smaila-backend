@@ -24,7 +24,7 @@ router.get("/vendor-by-category", getVendorByCategory);
 router.route("/profile").get(getVendorProfile).put(updateVendorProfile);
 router
   .route("/:id")
-  .delete(admin, deleteVendor)
+  .delete(deleteVendor)
   .get(admin, getVendorById)
   .put(admin, updateVendor);
 

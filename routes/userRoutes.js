@@ -20,7 +20,7 @@ router.post("/saveshippingaddress", saveShippingAddress);
 router.route("/profile").get(getUserProfile).put(updateUserProfile);
 router
   .route("/:id")
-  .delete(admin, deleteUser)
+  .delete(deleteUser)
   .get(admin, getUserById)
   .put(admin, updateUser);
 

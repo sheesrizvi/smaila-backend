@@ -160,14 +160,9 @@ const getUnapprovedVandors = asyncHandler(async (req, res) => {
 // @access  Private/Admin
 
 const deleteVendor = asyncHandler(async (req, res) => {
-  const vendor = await Vendor.findById(req.params.id);
-  if (vendor) {
-    await vendor.remove();
-    res.json({ message: "vendor removed" });
-  } else {
-    res.status(404);
-    throw new Error("vendor not found");
-  }
+  const user = await Vendor.deleteOne({ _id: req.query.id });
+
+  res.json({ message: "Vendor removed" });
 });
 
 // @desc    Get user by Id
