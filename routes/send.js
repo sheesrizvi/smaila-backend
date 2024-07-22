@@ -2,7 +2,7 @@ var admin = require("firebase-admin");
 const express = require("express");
 const router = express.Router();
 
-// var serviceAccount = require("../karibuapp-firebase.json");
+var serviceAccount = require("../shamila-firebase.json");
 
 // admin.initializeApp({
 //   credential: admin.credential.cert(serviceAccount),
