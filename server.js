@@ -26,7 +26,7 @@ app.use(
 app.use(express.json());
 app.use("/api/rnPushTokens", rnPushTokens);
 app.use("/api/admin", adminRoutes);
-app.use("/api/sendNoti", send);
+// app.use("/api/sendNoti", send);
 app.use("/api/banner", bannerRoutes);
 app.use("/api/featured", featuredRoutes);
 app.use("/api/booking", bookingRoutes);
