@@ -6,16 +6,24 @@ const categorySchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  nameAm: {
+    type: String,
+    required: true,
+  },
   description: {
+    type: String,
+    required: true,
+  },
+  descriptionAm: {
     type: String,
     required: true,
   },
   photo: {
     type: String,
-  }, 
+  },
   bgcolor: {
     type: String,
-  }, 
+  },
 });
 
 const Category = mongoose.model("Category", categorySchema);

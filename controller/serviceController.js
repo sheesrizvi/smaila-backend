@@ -11,18 +11,24 @@ const s3 = new AWS.S3({
 const createService = asyncHandler(async (req, res) => {
   const {
     name,
+    nameAm,
     image,
     color,
+    colorAm,
     brand,
+    brandAm,
     category,
     location,
     vendor,
     size,
     description,
+    descriptionAm,
     details,
+    detailsAm,
     sell_price,
     discount,
     city,
+    cityAm,
     notes,
   } = req.body;
 
@@ -44,6 +50,12 @@ const createService = asyncHandler(async (req, res) => {
     sell_price,
     discount,
     notes,
+    nameAm,
+    colorAm,
+    brandAm,
+    descriptionAm,
+    detailsAm,
+    cityAm,
   });
 
   if (product) {

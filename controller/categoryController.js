@@ -10,12 +10,15 @@ const s3 = new aws.S3({
 });
 
 const createCategory = asyncHandler(async (req, res) => {
-  const { id, name, description, photo, bgcolor } = req.body;
+  const { id, name, nameAm, description, descriptionAm, photo, bgcolor } =
+    req.body;
 
   const s = Category.create({
     _id: id,
     name,
+    nameAm,
     description,
+    descriptionAm,
     photo,
     bgcolor,
   });
