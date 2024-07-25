@@ -1,7 +1,7 @@
 var admin = require("firebase-admin");
 const express = require("express");
 const router = express.Router();
-
+const User = require("../models/userModel.js");
 var serviceAccount = require("../shamila-firebase.json");
 
 admin.initializeApp({
@@ -41,23 +41,8 @@ router.post("/send-notification-all", async (req, res) => {
   const tokens = await User.find({ pushToken: { $exists: true } }).select(
     "pushToken -_id"
   );
-  const user = await User.find({ pushToken: { $exists: true } }).select("_id");
-  const registrationToken = tokens.map((item) => item.pushToken);
-  const users = user.map((item) => item._id);
 
-  const createNoti = async () => {
-    const notification = await Notification.create({
-      title,
-      description: body,
-      users,
-    });
-    if (notification) {
-      console.log("success");
-    } else {
-      res.status(404);
-      throw new Error("Error");
-    }
-  };
+  const registrationToken = tokens.map((item) => item.pushToken);
 
   const message = {
     notification: {
@@ -85,12 +70,8 @@ router.post("/send-notification-all", async (req, res) => {
   admin
     .messaging()
     .sendMulticast(message)
-    .then((response) => {
-      // Response is a message ID string.
-      createNoti().then(() => {
-        console.log("Successfully sent message:", response);
-        res.json("success");
-      });
+    .then(function (response) {
+      res.status(201).send(response);
     })
     .catch((error) => {
       console.log("Error sending message:", error);
