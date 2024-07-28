@@ -1,7 +1,7 @@
 var admin = require("firebase-admin");
 const express = require("express");
 const router = express.Router();
-
+const User = require("../models/userModel.js");
 var serviceAccount = require("../shamila-firebase.json");
 
 // admin.initializeApp({
@@ -35,5 +35,47 @@ var serviceAccount = require("../shamila-firebase.json");
 //       throw new Error(error);
 //     });
 // });
+
+router.post("/send-notification-all", async (req, res) => {
+  const { title, body, image } = req.body;
+  const tokens = await User.find({ pushToken: { $exists: true } }).select(
+    "pushToken -_id"
+  );
+
+  const registrationToken = tokens.map((item) => item.pushToken);
+
+  const message = {
+    notification: {
+      title: title,
+      body: body,
+    },
+    android: {
+      notification: {
+        imageUrl: image,
+      },
+    },
+    apns: {
+      payload: {
+        aps: {
+          "mutable-content": 1,
+        },
+      },
+      fcm_options: {
+        image: image,
+      },
+    },
+    tokens: registrationToken,
+  };
+
+  admin
+    .messaging()
+    .sendMulticast(message)
+    .then(function (response) {
+      res.status(201).send(response);
+    })
+    .catch((error) => {
+      console.log("Error sending message:", error);
+    });
+});
 
 module.exports = router;
