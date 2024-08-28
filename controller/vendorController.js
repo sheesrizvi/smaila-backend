@@ -40,7 +40,7 @@ const authVendor = asyncHandler(async (req, res) => {
 //@access   Public
 
 const registerVendor = asyncHandler(async (req, res) => {
-  const { name, email, password, phone, category, registrationNumber } =
+  const { name, nameAm, email, password, phone, category, registrationNumber } =
     req.body;
 
   const userExists = await Vendor.findOne({ email });
@@ -51,7 +51,7 @@ const registerVendor = asyncHandler(async (req, res) => {
   }
 
   const vendor = await Vendor.create({
-    name,
+    name, nameAm,
     email,
     password,
     category,
@@ -70,6 +70,7 @@ const registerVendor = asyncHandler(async (req, res) => {
       token: generateTokenVendor(
         vendor._id,
         vendor.name,
+        vendor.nameAm,
         vendor.email,
         vendor.registered,
         vendor.phone,
@@ -95,7 +96,7 @@ const getVendorProfile = asyncHandler(async (req, res) => {
     res.json({
       _id: vendor._id,
       name: vendor.name,
-
+      nameAm: vendor.nameAm,
       email: vendor.email,
       registered: vendor.registered,
     });
@@ -113,6 +114,7 @@ const updateVendorProfile = asyncHandler(async (req, res) => {
 
   if (vendor) {
     vendor.name = req.body.name || vendor.name;
+    vendor.nameAm = req.body.nameAm || vendor.nameAm;
     vendor.email = req.body.email || vendor.email;
     vendor.phone = req.body.phone || vendor.phone;
     vendor.logo = req.body.logo || vendor.logo;
@@ -130,6 +132,7 @@ const updateVendorProfile = asyncHandler(async (req, res) => {
       token: generateTokenVendor(
         updatedUser._id,
         updatedUser.name,
+        updatedUser.nameAm,
         updatedUser.email,
         updatedUser.registered,
         updatedUser.phone,
@@ -218,7 +221,7 @@ const updateVendor = asyncHandler(async (req, res) => {
   }
 });
 const approveVendor = asyncHandler(async (req, res) => {
-  console.log(req.body.id);
+
   const vendor = await Vendor.findById(req.body.id);
 
   if (vendor) {
