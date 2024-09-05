@@ -22,6 +22,7 @@ const authVendor = asyncHandler(async (req, res) => {
       token: generateTokenVendor(
         vendor._id,
         vendor.name,
+        vendor.nameAm,
         vendor.email,
         vendor.registered,
         vendor.phone,
