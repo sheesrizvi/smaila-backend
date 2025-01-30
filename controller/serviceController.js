@@ -122,7 +122,7 @@ const getServices = asyncHandler(async (req, res) => {
         justStrings,
         { sell_price: { $gte: minprice } },
         { sell_price: { $lte: maxprice } },
-       
+
       ],
     });
     var pageCount = Math.floor(count / 10);
@@ -235,7 +235,7 @@ const getAllServices = asyncHandler(async (req, res) => {
   var pageCount = Math.floor(count / 10);
   if (count % 10 !== 0) {
     pageCount = pageCount + 1;
-  } 
+  }
 
   const products = await Service.find({
 
@@ -293,7 +293,7 @@ const getServiceById = asyncHandler(async (req, res) => {
   }
 });
 const serviceClicked = asyncHandler(async (req, res) => {
-  const product = await Service.findOneAndUpdate({_id: req.query.productId}, {clicks: clicks+1});
+  const product = await Service.findOneAndUpdate({ _id: req.query.productId }, { $inc: { clicks: 1 } });
   if (product) {
     res.json("success");
   } else {
