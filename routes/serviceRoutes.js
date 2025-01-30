@@ -13,7 +13,7 @@ const {
   serviceClicked,
 } = require("../controller/serviceController");
 const router = express.Router();
-
+ 
 router.route("/").get(getServices);
 router.route("/all").get(getAllServices);
 router.route("/bestservices").get(getBestSellingServices);

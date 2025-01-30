@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/userModel.js");
 var serviceAccount = require("../shamila-firebase.json");
-
+ 
 // admin.initializeApp({
 //   credential: admin.credential.cert(serviceAccount),
 // });

@@ -9,7 +9,7 @@ const Vendor = require("../models/vendorModel");
 
 const authVendor = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-
+ 
   const vendor = await Vendor.findOne({ email });
 
   if (vendor && (await vendor.matchPassword(password))) {

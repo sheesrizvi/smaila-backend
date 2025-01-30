@@ -103,7 +103,6 @@ const serviceSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
-
     sell_price: {
       type: Number,
       required: true,

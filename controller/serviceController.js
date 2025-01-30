@@ -235,7 +235,7 @@ const getAllServices = asyncHandler(async (req, res) => {
   var pageCount = Math.floor(count / 10);
   if (count % 10 !== 0) {
     pageCount = pageCount + 1;
-  }
+  } 
 
   const products = await Service.find({
 
