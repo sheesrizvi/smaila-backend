@@ -74,6 +74,10 @@ const serviceSchema = mongoose.Schema(
     city: {
       type: String,
     },
+    clicks: {
+      type: Number,
+      default: 0,
+    },
 
     sell_price: {
       type: Number,

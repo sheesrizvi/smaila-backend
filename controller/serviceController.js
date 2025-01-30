@@ -81,9 +81,9 @@ const deleteService = asyncHandler(async (req, res) => {
 const getServices = asyncHandler(async (req, res) => {
   const { category, price, vendor, ratings } = req.query;
 
-  const longitude = req.query.longitude;
-  const latitude = req.query.latitude;
-  const distance = req.query.distance;
+  const longitude = req.query.longitude ? req.query.longitude : 39.401295327076376;
+  const latitude = req.query.latitude ? req.query.latitude : 8.645949941734159;
+  const distance = req.query.distance ? req.query.distance : 30000;
   const minprice = price ? price[0] : 0;
   const maxprice = price ? price[1] : 25000000000000;
 
@@ -109,17 +109,7 @@ const getServices = asyncHandler(async (req, res) => {
         justStrings,
         { sell_price: { $gte: minprice } },
         { sell_price: { $lte: maxprice } },
-        // {
-        //   location: {
-        //     $near: {
-        //       $maxDistance: distance * 1000,
-        //       $geometry: {
-        //         type: "Point",
-        //         coordinates: [longitude, latitude],
-        //       },
-        //     },
-        //   },
-        // },
+       
       ],
     });
     var pageCount = Math.floor(count / 10);
@@ -254,6 +244,15 @@ const getServiceById = asyncHandler(async (req, res) => {
   );
   if (product) {
     res.json(product);
+  } else {
+    res.status(404);
+    throw new Error("Service not found");
+  }
+});
+const serviceClicked = asyncHandler(async (req, res) => {
+  const product = await Service.findOneAndUpdate({_id: req.query.productId}, {clicks: clicks+1});
+  if (product) {
+    res.json("success");
   } else {
     res.status(404);
     throw new Error("Service not found");
@@ -399,6 +398,7 @@ const getNewServices = asyncHandler(async (req, res) => {
 });
 
 module.exports = {
+  serviceClicked,
   createService,
   deleteService,
   updateService,

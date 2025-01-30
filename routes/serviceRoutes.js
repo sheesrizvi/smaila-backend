@@ -10,6 +10,7 @@ const {
   getServiceById,
   createServiceReview,
   getServiceByVendor,
+  serviceClicked,
 } = require("../controller/serviceController");
 const router = express.Router();
 
@@ -29,5 +30,6 @@ router.route("/getServicesByCategory").get(getServiceByCategory);
 router.route("/get-serviceby-id").get(getServiceById);
 router.route("/get-serviceby-vendorid").get(getServiceByVendor);
 router.route("/create-review").post(createServiceReview);
+router.route("/click").get(serviceClicked);
 
 module.exports = router;

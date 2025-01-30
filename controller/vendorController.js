@@ -160,6 +160,7 @@ const getUnapprovedVandors = asyncHandler(async (req, res) => {
 // @access  Private/Admin
 
 const deleteVendor = asyncHandler(async (req, res) => {
+
   const user = await Vendor.deleteOne({ _id: req.query.id });
 
   res.json({ message: "Vendor removed" });
