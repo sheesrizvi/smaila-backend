@@ -22,6 +22,10 @@ const serviceSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    nameAm: {
+      type: String,
+      required: true,
+    },
     image: [
       {
         type: String,
@@ -31,11 +35,20 @@ const serviceSchema = mongoose.Schema(
     color: {
       type: String,
     },
+    colorAm: {
+      type: String,
+    },
     flavour: {
+      type: String,
+    },
+    flavourAm: {
       type: String,
     },
 
     brand: {
+      type: String,
+    },
+    brandAm: {
       type: String,
     },
     category: {
@@ -59,7 +72,16 @@ const serviceSchema = mongoose.Schema(
     description: {
       type: String,
     },
+    descriptionAm: {
+      type: String,
+      required: true,
+    },
     details: [
+      {
+        type: String,
+      },
+    ],
+    detailsAm: [
       {
         type: String,
       },
@@ -72,6 +94,9 @@ const serviceSchema = mongoose.Schema(
       default: 0,
     },
     city: {
+      type: String,
+    },
+    cityAm: {
       type: String,
     },
     clicks: {

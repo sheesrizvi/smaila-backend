@@ -9,12 +9,13 @@ const {
   getServiceByCategory,
   getServiceById,
   createServiceReview,
-  getServiceByVendor,
+  getServiceByVendor, getAllServices,
   serviceClicked,
 } = require("../controller/serviceController");
 const router = express.Router();
 
 router.route("/").get(getServices);
+router.route("/all").get(getAllServices);
 router.route("/bestservices").get(getBestSellingServices);
 // router.route("/sale-products").get(getsale);
 router.route("/search").get(searchService);

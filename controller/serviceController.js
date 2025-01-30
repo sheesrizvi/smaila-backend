@@ -11,18 +11,24 @@ const s3 = new AWS.S3({
 const createService = asyncHandler(async (req, res) => {
   const {
     name,
+    nameAm,
     image,
     color,
+    colorAm,
     brand,
+    brandAm,
     category,
     location,
     vendor,
     size,
     description,
+    descriptionAm,
     details,
+    detailsAm,
     sell_price,
     discount,
     city,
+    cityAm,
     notes,
   } = req.body;
 
@@ -44,6 +50,12 @@ const createService = asyncHandler(async (req, res) => {
     sell_price,
     discount,
     notes,
+    nameAm,
+    colorAm,
+    brandAm,
+    descriptionAm,
+    detailsAm,
+    cityAm,
   });
 
   if (product) {
@@ -88,6 +100,7 @@ const getServices = asyncHandler(async (req, res) => {
   const maxprice = price ? price[1] : 25000000000000;
 
   if (minprice || maxprice) {
+
     const filter = {
       category,
       vendor,
@@ -125,11 +138,13 @@ const getServices = asyncHandler(async (req, res) => {
         {
           location: {
             $near: {
-              $maxDistance: distance * 1000,
+
               $geometry: {
                 type: "Point",
                 coordinates: [longitude, latitude],
               },
+              $maxDistance: distance * 1000,
+
             },
           },
         },
@@ -141,6 +156,7 @@ const getServices = asyncHandler(async (req, res) => {
       .sort({ createdAt: -1 });
     res.json({ products, pageCount });
   } else {
+
     const filter = {
       category,
       vendor,
@@ -206,6 +222,32 @@ const getServices = asyncHandler(async (req, res) => {
   }
 });
 
+
+const getAllServices = asyncHandler(async (req, res) => {
+
+
+  const pageSize = 20;
+  const page = Number(req.query.pageNumber) || 1;
+
+  const count = await Service.countDocuments({
+
+  });
+  var pageCount = Math.floor(count / 10);
+  if (count % 10 !== 0) {
+    pageCount = pageCount + 1;
+  }
+
+  const products = await Service.find({
+
+  })
+    .limit(pageSize)
+    .skip(pageSize * (page - 1))
+    .populate("category vendor")
+    .sort({ createdAt: -1 });
+  res.json({ products, pageCount });
+
+});
+
 const getServiceByCategory = asyncHandler(async (req, res) => {
   const pageSize = 30;
   const page = Number(req.query.pageNumber) || 1;
@@ -222,6 +264,7 @@ const getServiceByCategory = asyncHandler(async (req, res) => {
 });
 
 const getServiceByVendor = asyncHandler(async (req, res) => {
+
   const pageSize = 30;
   const page = Number(req.query.pageNumber) || 1;
   const count = await Service.countDocuments({ vendor: req.query.SubCatId });
@@ -409,5 +452,5 @@ module.exports = {
   getServiceByVendor,
   searchService,
   getBestSellingServices,
-  getNewServices,
+  getNewServices, getAllServices
 };
